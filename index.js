@@ -530,8 +530,8 @@ export default class VideoPlayer extends React.Component {
   };
 
   render() {
-    const videoWidth = Dimensions.get('window').width;
-    const videoHeight = videoWidth * (9 / 16);
+    const videoWidth = this.props.videoWidth || Dimensions.get('window').width;
+    const videoHeight = this.props.videoHeight || videoWidth * (9 / 16);
     const centeredContentWidth = 60;
 
     const PlayIcon = this.props.playIcon;
