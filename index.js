@@ -91,6 +91,8 @@ export default class VideoPlayer extends React.Component {
     */
     errorCallback: PropTypes.func,
 
+    showFullscreen: PropTypes.bool,
+
     // Icons
     playIcon: PropTypes.func,
     pauseIcon: PropTypes.func,
@@ -128,6 +130,7 @@ export default class VideoPlayer extends React.Component {
     fadeOutDuration: 1000,
     quickFadeOutDuration: 200,
     hideControlsTimerDuration: 4000,
+    showFullscreen: true,
     // Appearance (assets and styles)
     playIcon: PlayIcon,
     pauseIcon: PauseIcon,
@@ -612,6 +615,21 @@ export default class VideoPlayer extends React.Component {
         </Text>
       </View>;
 
+    const fullscreenControl = (
+      <Control
+        style={{ backgroundColor: 'transparent' }}
+        center={false}
+        callback={() => {
+          this.props.isPortrait
+            ? this.props.switchToLandscape()
+            : this.props.switchToPortrait();
+        }}>
+        {this.props.isPortrait
+          ? <FullscreenEnterIcon />
+          : <FullscreenExitIcon />}
+      </Control>
+    );
+
     return (
       <TouchableWithoutFeedback onPress={this._toggleControls.bind(this)}>
         <View
@@ -729,18 +747,7 @@ export default class VideoPlayer extends React.Component {
             </Text>
 
             {/* Fullscreen control */}
-            <Control
-              style={{ backgroundColor: 'transparent' }}
-              center={false}
-              callback={() => {
-                this.props.isPortrait
-                  ? this.props.switchToLandscape()
-                  : this.props.switchToPortrait();
-              }}>
-              {this.props.isPortrait
-                ? <FullscreenEnterIcon />
-                : <FullscreenExitIcon />}
-            </Control>
+            {this.props.showFullscreen && fullscreenControl}
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>
